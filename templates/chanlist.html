@@ -1,0 +1,29 @@
+{{define "chanlist"}}
+    <div class="panel panel-default">
+        <h4 class="panel-heading">Top Channels</h4>
+        <div class="panel-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Last</th>
+                        <th class="text-right">Msgs / Week</th>
+                    </tr>
+                </thead>
+                <tbody>
+				{{range $.Channels}}
+			    	<tr{{if eq .Name $.Channel.Name}} class="active"{{end}}>
+						<td style="text-align:right;">{{.Index}}.</td>
+						<th><a href="/chan/{{if eq .Name "GENERAL"}}UPPERCASE_{{end}}{{.Name}}" style="display: block;{{if eq .Name $.Channel.Name}} color: #666;{{end}}"><span style="display: inline-block; vertical-align: middle;">{{.Name}}</span></a></th>
+   						<td style="white-space: nowrap;">{{.Last}}</td>
+						<td style="text-align:right;">{{.Count}}</td>
+					</tr>
+				{{end}}
+				<tbody>
+            </table>
+            <p><a href="/chanlist">BeamStat channel list</a></p>
+            <p><a href="/add-chan">Add channel</a></p>
+        </div>
+    </div>
+{{end}}

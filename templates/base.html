@@ -1,0 +1,82 @@
+{{define "header"}}<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{end}}{{define "header2"}}</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<div class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">BeamStat</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li class="active"><a href="/chan/general">Chans</a></li>
+                <li><a href="/broadcast">Broadcasts</a></li>
+                <li><a href="/obj">Objects</a></li>
+                <li><a href="/downloads">Downloads</a></li>
+                <li><a href="/numberstation">NumberStation</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+{{end}}
+{{define "footer"}}
+</div>
+<div class="footer">
+    <div class="container">
+        <div class="col-md-12">
+            <p class="text-muted text-left">All times in UTC</p>
+            <p class="text-muted">
+                Clearnet: <a href="https://beamstat.com/">https://beamstat.com/</a><br>
+                Tor: <a href="http://bm6hsivrmdnxmw2f.onion/">http://bm6hsivrmdnxmw2f.onion/</a>
+            </p>
+            <p><a href="/tos">Terms of Service &amp; Privacy Policy</a></p>
+            <p class="text-muted text-left">
+                BM-87ZQse4Ta4MLM9EKmfVUFA4jJUms1Fwnxws<br>
+                mirrorwish@mailchuck.com
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+{{end}}
+
+{{define "active"}}
+    <div class="panel panel-default">
+        <h4 class="panel-heading">Active Objects</h4>
+        <div class="panel-body">
+            <table class="table table-hover a">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="text-right">Count</th>
+                        <th class="text-right">Size</th>
+                    </tr>
+                </thead>
+                <tbody>
+				{{range .Actives}}
+					{{if .Sub}}
+					<tr class="sub">
+					{{else}}
+					<tr class="main">
+					{{end}}
+						<th>{{.TypeString}}</th>
+						<td>{{.Count}}</td>
+						<td>{{.Size}} kB</td>
+					</tr>
+				{{end}}
+                <tbody>
+            </table>
+            <p>Only objects that have not yet expired are counted. Once an object expires it is removed.</p>
+        </div>
+    </div>
+{{end}}

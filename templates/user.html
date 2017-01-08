@@ -1,0 +1,10 @@
+{{template "base" .}}
+{{define "content"}}
+	<div class="row">
+		<div class="col-md-3">
+			{{range .}}
+				<p><a href="/user/{{.Id}}">{{.Id}}</a></p>
+			{{end}}
+		</div>
+	</div>
+{{end}}

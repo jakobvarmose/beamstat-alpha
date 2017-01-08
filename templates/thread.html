@@ -1,0 +1,42 @@
+{{define "thread" -}}
+{{template "header" .}}{{.Thread.Subject}} - BeamStat{{template "header2" .}}
+<div class="row">
+	<div class="col-md-5">
+		{{template "threadlist" .}}
+	</div>
+	<div class="col-md-7">
+		<div class="panel panel-default">
+			<h4 class="panel-heading">{{$.Thread.Subject}}</h4>
+			<div class="panel-body">{{range $.Thread.Comments}}
+				<p style="{{if .Pending}}color: #00f{{end}}"><img style="display: inline-block; vertical-align: middle; margin-right: 4px;" src="/identicon/{{.Sender}}.png" alt=""><span style="display: inline-block; vertical-align: middle;"><b title="{{.Sender}}">{{.SenderName}}</b>{{if .IsExtended}} &lt;&lt;Ext&gt;&gt;{{end}}<br><span style="color:gray;">{{.Received}}</span></span></p>
+				<p style="white-space:pre-wrap;">{{.Text}}</p>
+				<div class="post" style="display: none;">
+	            	<div id="post1" style="display:none;">
+	            		<p><textarea style="width:100%;" rows="10" id="body"></textarea></p>
+	                    <p>Type the characters displayed in the image below<br><img width="240" height="80" src="" id="c1"><br><input type="tel" id="c2"></p>
+	                    <input type="hidden" class="subject" value="Re: {{$.Thread.Subject}}">
+	                    <input type="hidden" class="append" value="
+
+------------------------------------------------------
+{{.Text}}"><!--FIXME-->
+	                    <input type="hidden" id="name" value="{{$.Channel.Name}}">
+	                    <input type="button" id="submit" value="Post"  class="btn btn-sm btn-primary">
+	                    <input type="button" id="close" value="Cancel"  class="btn btn-sm btn-default">
+	                    <div class="error error1" style="display: none;">Invalid captcha</div>
+	                    <div class="error error2" style="display: none;">Server is overloaded</div>
+	                    <div class="error error500" style="display: none;">Unknown error</div>
+	                </div>
+	                <div id="post2">
+	                    <input type="button" id="open" value="Reply" class="btn btn-sm btn-default">
+	                </div>
+	                <div id="post3" style="display:none;">
+	                    Your comment is being created. This should take a few minutes. You will need to reload the page.
+	                </div>
+	            </div>{{end}}
+			</div>
+		</div>
+	</div>
+</div>
+{{template "script" .}}
+{{template "footer" .}}
+{{- end}}

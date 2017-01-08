@@ -1,0 +1,49 @@
+{{define "threadlist"}}<div class="panel panel-default">
+	<h4 class="panel-heading">[chan] {{.Channel.Name}}<br>{{.Channel.Address}}</h4>
+	<div class="panel-body">
+		{{if .Channel.Exists}}
+		{{if eq .Channel.Name "find-new-chan"}}
+			<p><a href="/add-chan">Add a new channel</a></p>
+		{{end}}
+		<div class="post" style="display: none;">
+			<div id="post1" style="display:none;">
+				<p>Subject:<br><input type="text" class="subject" style="width:100%;"></p>
+				<p>Body:<br><textarea style="width:100%;" rows="10" id="body"></textarea></p>
+				<p>Type the characters displayed in the image below<br><img width="240" height="80" src="" id="c1"><br><input type="tel" id="c2"></p>
+				<input type="hidden" class="append" value="">
+				<input type="hidden" id="name" value="{{.Channel.Name}}">
+				<input type="button" id="submit" value="Post" class="btn btn-sm btn-primary">
+				<input type="button" id="close" value="Cancel" class="btn btn-sm btn-default">
+				<div class="error error1" style="display: none;">Invalid captcha</div>
+				<div class="error error2" style="display: none;">Server is overloaded</div>
+				<div class="error error500" style="display: none;">Unknown error</div>
+			</div>
+			<div id="post2">
+				<input type="button" id="open" value="New thread" class="btn btn-sm btn-primary">
+			</div>
+			<div id="post3" style="display:none;">
+				Your thread is being created. This should take a few minutes. You will need to reload the page.
+			</div>
+		</div>
+		{{template "script" .}}
+		<table class="table table-hover channel-widget">
+			<thead>
+				<tr>
+					<th width="65%">Subject</th>
+					<th>Last</th>
+					<th class="text-right">Count</th>
+				</tr>
+			</thead>
+			<tbody>{{range $.Channel.Threads}}
+				<tr>
+					<td><a style="display:block" href="/chan/{{$.Channel.Name}}/{{.Hash}}">{{.Subject}}</a></td>
+					<td style="white-space: nowrap;">{{.Last}}</td>
+					<td class="text-right">{{.Count}}</td>
+					</tr>{{end}}
+			</tbody>
+		</table>
+		{{else}}
+		<p>This channel is not listed on BeamStat, but you can <a href="/add-chan">add it</a>.</p>
+		{{end}}
+	</div>
+</div>{{end}}

@@ -1,0 +1,109 @@
+        .a th:nth-child(1) {
+            text-align: left;
+        }
+        .a td:nth-child(2),.a td:nth-child(3) {
+            text-align: right;
+        }
+        .a tr.sub>* {
+            color: #999;
+        }
+        .a tr.main>* {
+          color: #333;
+        }
+        .a tr.sub>*:nth-child(1) {
+            padding-left: 1em;
+        }
+        table.b {
+            margin-bottom: 3em;
+        }
+        table.b td, table.b th {
+            padding-right: 1em;
+        }
+        table.b td:nth-child(1) {
+            font-family: monospace;
+        }
+        .footer {
+            background-color: #fff;
+            margin-top: 20px;
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        .text-muted {
+            color: #aaa;
+        }
+        .channel-widget {
+            table-layout: fixed;
+        }
+        .channel-widget td:nth-child(1) {
+            word-wrap: break-word;
+            min-width: 50%;
+        }
+        .channel-widget td:nth-child(2),.a td:nth-child(3) {
+        
+        }
+
+
+body {
+  background-color: #e5e5e5;
+    color: #666;
+}
+.navbar-default {
+  background: #fff;
+  border-radius: 0 0 5px 5px;
+  border: 0;
+  padding: 0;
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0,0,0,.2);
+  -moz-box-shadow: 0 1px 3px 0 rgba(0,0,0,.2);
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.2);
+  overflow: hidden;
+}
+.navbar-default .navbar-nav > li {
+  margin-left: 1px;
+}
+.navbar-default .navbar-brand,
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-nav > li > a {
+  padding: 15px 20px;
+  font-size: 16px;
+  color: #999;
+}
+.panel-default, .footer {
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0,0,0,.2);
+  -moz-box-shadow: 0 1px 3px 0 rgba(0,0,0,.2);
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.2);
+}
+.panel-default .panel-heading {
+    background-color: #ffffff;
+    color: #52b6ec;
+    color: #3296cc;
+    font-weight: bold;
+}
+.navbar-default .navbar-nav > li.active > a,
+.navbar-default .navbar-nav > li.active:focus > a,
+.navbar-default .navbar-nav > li.active:hover > a,
+.navbar-default .navbar-nav > li:hover > a,
+.navbar-default .navbar-nav > li:focus > a,
+.navbar-default .navbar-nav > li.active > a:focus,
+.navbar-default .navbar-nav > li.active:focus > a:focus,
+.navbar-default .navbar-nav > li.active:hover > a:focus,
+.navbar-default .navbar-nav > li:hover > a:focus,
+.navbar-default .navbar-nav > li:focus > a:focus {
+  background-color: #52b6ec;
+  color: #fff;
+}
+.panel-default {
+    border-radius: 0;
+}
+a {
+  color: #52b6ec;
+  -webkit-transition: 300ms;
+  -moz-transition: 300ms;
+  -o-transition: 300ms;
+  transition: 300ms;
+}
+a:hover,
+a:focus {
+  color: #80c9f1;
+    text-decoration: underline;
+  outline: none;
+}

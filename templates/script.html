@@ -1,0 +1,92 @@
+{{define "script"}}
+<script>
+    function display(parent, selector, value) {
+        var elements = document.querySelectorAll(selector)
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].style.display = value;
+        }
+    }
+    var posts = document.querySelectorAll('.post')
+    for (var i = 0; i < posts.length; i++ ) {
+        (function (post) {
+            var id
+            post.querySelector('#submit').onclick = function () {
+            	if (post.querySelector('#body').value === '') {
+            		return
+            	}
+                var xhr = new XMLHttpRequest()
+                xhr.open('POST', '/post-msg/', true)
+                xhr.send(JSON.stringify({
+                    subject: post.querySelector('.subject').value,
+                    comment: post.querySelector('#body').value,
+                    parent: post.querySelector('.append').value,
+                    body: post.querySelector('#body').value+post.querySelector('.append').value,
+                    id: id,
+                    captcha: post.querySelector('#c2').value,
+                    name: post.querySelector('#name').value
+                }))
+                display(post, '.error', 'none')
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        try {
+                            var obj = JSON.parse(xhr.responseText)
+                        } catch (ex) {
+                            display(post, '.error500', 'block')
+                            post.querySelector('#submit').disabled = false
+                            return
+                        }
+                        if (obj.error === 0) {
+                            //post.querySelector('#post1').style.display='none'
+                            //post.querySelector('#post2').style.display='block'
+                            //post.querySelector('#post3').style.display='block'
+                            //post.querySelector('#submit').disabled = false
+                            //post.querySelector('#subject').value = ''
+                            //post.querySelector('#body').value = ''
+                            //post.querySelector('#c1').src = ''
+                            location.reload()
+                        } else if (obj.error == 1) {
+                            id = obj.id
+                            display(post, '.error1', 'block')
+                            post.querySelector('#c1').src = '/post-msg/captcha/'+obj.id+'.png'
+                            post.querySelector('#submit').disabled = false
+                        } else if (obj.error == 2) {
+                            id = obj.id
+                            display(post, '.error2', 'block')
+                            post.querySelector('#c1').src = '/post-msg/captcha/'+obj.id+'.png'
+                            post.querySelector('#submit').disabled = false
+                        } else {
+                            display(post, '.error500', 'block')
+                        }
+                    }
+                }
+                post.querySelector('#submit').disabled = true
+                return false
+            }
+            display(post, '.post', 'block')
+            post.querySelector('#submit').disabled = false
+            post.querySelector('#close').onclick = function () {
+                post.querySelector('#post1').style.display='none'
+                post.querySelector('#post2').style.display='block'
+                post.querySelector('#c1').src = ''
+            }
+            post.querySelector('#open').onclick = function () {
+                display(post, '.error', 'none')
+                post.querySelector('#post1').style.display='block'
+                post.querySelector('#post2').style.display='none'
+                post.querySelector('#post3').style.display='none'
+                post.querySelector('#c2').value = ''
+                var xhr = new XMLHttpRequest()
+                xhr.open('GET', '/post-msg/', true)
+                xhr.send()
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        var obj = JSON.parse(xhr.responseText)
+                        id = obj.id
+                        post.querySelector('#c1').src = '/post-msg/captcha/'+obj.id+'.png'
+                    }
+                }
+            }
+        })(posts[i])
+    }
+</script>
+{{end}}
