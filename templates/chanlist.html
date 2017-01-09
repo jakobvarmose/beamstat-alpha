@@ -15,7 +15,7 @@
 				{{range $.Channels}}
 			    	<tr{{if eq .Name $.Channel.Name}} class="active"{{end}}>
 						<td style="text-align:right;">{{.Index}}.</td>
-						<th><a href="/chan/{{if eq .Name "GENERAL"}}UPPERCASE_{{end}}{{.Name}}" style="display: block;{{if eq .Name $.Channel.Name}} color: #666;{{end}}"><span style="display: inline-block; vertical-align: middle;">{{.Name}}</span></a></th>
+						<th><a href="/chan/{{if eq .Name "GENERAL"}}UPPERCASE_{{end}}{{.Name}}" style="display: block;{{if eq .Name $.Channel.Name}} color: #666;{{end}}"><span style="word-break: break-all; display: inline-block; vertical-align: middle;">{{.Name}}</span></a></th>
    						<td style="white-space: nowrap;">{{.Last}}</td>
 						<td style="text-align:right;">{{.Count}}</td>
 					</tr>
