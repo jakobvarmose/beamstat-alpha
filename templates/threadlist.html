@@ -35,8 +35,8 @@
 				</tr>
 			</thead>
 			<tbody>{{range $.Channel.Threads}}
-				<tr>
-					<td><a style="display:block" href="/chan/{{$.Channel.Name}}/{{.Hash}}">{{.Subject}}</a></td>
+				<tr{{if eq .Subject $.Thread.Subject}} class="active"{{end}}>
+					<td><a style="display:block;{{if eq .Subject $.Thread.Subject}} color: #666;{{end}}" href="/chan/{{$.Channel.Name}}/{{.Hash}}">{{.Subject}}</a></td>
 					<td style="white-space: nowrap;">{{.Last}}</td>
 					<td class="text-right">{{.Count}}</td>
 					</tr>{{end}}

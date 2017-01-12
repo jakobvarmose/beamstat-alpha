@@ -108,9 +108,13 @@ func handleChan(w http.ResponseWriter, req *http.Request, name string) {
 		name = "/tech/"
 	}
 
+	type ThreadInfo struct {
+		Subject string
+	}
 	type Info struct {
 		Channels []ChannelInfo
 		Channel  *Channel2
+		Thread   *ThreadInfo
 	}
 	channel, err := getChan(name)
 	if err != nil {
@@ -121,6 +125,7 @@ func handleChan(w http.ResponseWriter, req *http.Request, name string) {
 	info := Info{
 		Channels: getChanList(),
 		Channel:  channel,
+		Thread:   &ThreadInfo{},
 	}
 	/*
 
