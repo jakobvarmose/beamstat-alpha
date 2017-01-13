@@ -32,6 +32,7 @@ type Channel2 struct {
 	Name    string
 	Address string
 	Exists  bool
+	Enabled bool
 	Threads []*Thread2
 }
 

@@ -47,11 +47,12 @@ var chanAddresses = make(map[string]string)
 func getChan(name string) (*Channel2, error) {
 	address := ""
 	exists := false
+	var enabled bool
 	_ = db.QueryRow(`
-		select concat("BM-", address)
+		select concat("BM-", address), enabled
 		from keys2
 		where name = ?;
-	`, name).Scan(&address)
+	`, name).Scan(&address, &enabled)
 	if address == "" {
 		address = chanAddresses[name]
 		if address == "" {
@@ -91,6 +92,7 @@ func getChan(name string) (*Channel2, error) {
 		Address: address,
 		Threads: threads,
 		Exists:  exists,
+		Enabled: enabled,
 	}
 	return channel, nil
 }

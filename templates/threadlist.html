@@ -2,6 +2,7 @@
 	<h4 class="panel-heading">[chan] {{.Channel.Name}}<br>{{.Channel.Address}}</h4>
 	<div class="panel-body">
 		{{if .Channel.Exists}}
+		{{if .Channel.Enabled}}
 		{{if eq .Channel.Name "find-new-chan"}}
 			<p><a href="/add-chan">Add a new channel</a></p>
 		{{end}}
@@ -42,6 +43,9 @@
 					</tr>{{end}}
 			</tbody>
 		</table>
+		{{else}}
+		<p>This channel has been disabled.</p>
+		{{end}}
 		{{else}}
 		<p>This channel is not listed on BeamStat, but you can <a href="/add-chan">add it</a>.</p>
 		{{end}}
