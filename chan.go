@@ -79,6 +79,9 @@ func getChan(name string) (*Channel2, error) {
 		var count int
 		var last int64
 		rows.Scan(&subject, &count, &last, &hash)
+		if subject == "" {
+			subject = "(no subject)"
+		}
 		threads = append(threads, &Thread2{
 			Subject: subject,
 			Hash:    hash,

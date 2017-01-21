@@ -112,6 +112,9 @@ func handleThread(w http.ResponseWriter, req *http.Request, name string, threadH
 		comment.Received = formatTime(received)
 		comments = append(comments, &comment)
 	}
+	if subject == "" {
+		subject = "(no subject)"
+	}
 	rows.Close()
 	channel, err := getChan(name)
 	if err != nil {
