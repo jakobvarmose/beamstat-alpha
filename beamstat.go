@@ -12,10 +12,12 @@ import (
 
 	"github.com/Sirupsen/logrus"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jakobvarmose/beamstat-alpha/dao"
 )
 
 var tmpl *template.Template
 var db *sql.DB
+var d *dao.DAO
 
 func init2() {
 	dir := "templates"
@@ -44,6 +46,9 @@ func main() {
 	db, err = sql.Open(config["sql_driver"], config["sql_database"])
 	if err != nil {
 		panic(err)
+	}
+	d = &dao.DAO{
+		Db: db,
 	}
 	/*	for _, row := range db.MustQuery(`select data from objects2 join objects on objects.hash=objects2.hash where type=0 limit 5`) {
 		obj, err := types.UnmarshalObject(row.Bin(0))

@@ -74,51 +74,31 @@ func handleThread(w http.ResponseWriter, req *http.Request, name string, threadH
 	case "tech", "tech/":
 		name = "/tech/"
 	}
-
-	rows, err := db.Query(`
-		select  coalesce(
-			(select name from addresses where address=sender), sender
-		), comment, received,
-		sender, body, pending, subject, extended
-        from channels
-        where thread_hash = ? and received > unix_timestamp() - 3*28*24*60*60
-        order by received asc
-        limit 1000
-	`, threadHash)
-	//parent_hash, comment_hash, hash,
-	var comments []*Comment
+	comments1, err := d.Comments(threadHash)
 	if err != nil {
-		logrus.Errorln(err.Error())
 		http.Error(w, "Internal server error", 500)
 		return
 	}
+	var comments []*Comment
+	for _, comment := range comments1 {
+		comments = append(comments, &Comment{
+			Sender:     comment.Sender,
+			SenderName: comment.SenderName,
+			IsReply:    comment.IsReply,
+			Subject:    comment.Subject,
+			Text:       comment.Text,
+			Pending:    comment.Pending,
+			Received:   formatTime(comment.Received),
+			Body:       comment.Body,
+			IsExtended: comment.IsExtended,
+		})
+	}
 	var subject string
-	for rows.Next() {
-		var comment Comment
-		var received int64
-		err := rows.Scan(
-			&comment.SenderName,
-			&comment.Text,
-			&received,
-			&comment.Sender,
-			&comment.Body,
-			&comment.Pending,
-			&subject,
-			&comment.IsExtended,
-		)
-		if err != nil {
-			logrus.Errorln(err.Error())
-		}
-		comment.Received = formatTime(received)
-		comments = append(comments, &comment)
+	if len(comments) > 0 {
+		subject = comments[0].Subject
 	}
-	if subject == "" {
-		subject = "(no subject)"
-	}
-	rows.Close()
 	channel, err := getChan(name)
 	if err != nil {
-		logrus.Errorln(err.Error())
 		http.Error(w, "Internal server error", 500)
 		return
 	}

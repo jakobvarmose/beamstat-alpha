@@ -11,91 +11,62 @@ import (
 
 func getChanList() []ChannelInfo {
 	list := make([]ChannelInfo, 0)
-	rows, err := db.Query(`
-		select weekly, topchannels.name, last
-		from topchannels join keys2
-		on substr(topchannels.name, 8)=keys2.name
-		order by spam asc, weekly desc, last desc
-		limit 200;
-	`)
+	topChans, err := d.TopChans()
 	if err != nil {
-		panic(err)
+		//FIXME
+		return nil
 	}
 	i := 1
-	for rows.Next() {
-		var count int
-		var name string
-		var last int64
-		err := rows.Scan(&count, &name, &last)
-		if err != nil {
-			panic(err)
-		}
+	for _, topChan := range topChans {
 		list = append(list, ChannelInfo{
 			i,
-			count,
-			name[7:],
-			time.Unix(last, 0).Format("Jan 2 15:04"),
+			topChan.Count,
+			topChan.Name,
+			time.Unix(topChan.Last, 0).Format("Jan 2 15:04"),
 		})
 		i++
 	}
-	rows.Close()
 	return list
 }
 
 var chanAddresses = make(map[string]string)
 
 func getChan(name string) (*Channel2, error) {
-	address := ""
 	exists := false
-	var enabled bool
-	_ = db.QueryRow(`
-		select concat("BM-", address), enabled
-		from keys2
-		where name = ?;
-	`, name).Scan(&address, &enabled)
-	if address == "" {
-		address = chanAddresses[name]
-		if address == "" {
+	key := d.KeyByName(name)
+	if key.Address == "" {
+		key.Address = chanAddresses[name]
+		if key.Address == "" {
 			ripe := crypt.DeterministicPrivateCombo(name).Ripe()
-			address = crypt.Address{4, 1, ripe}.String()
-			chanAddresses[name] = address
+			key.Address = crypt.Address{
+				Version: 4,
+				Stream:  1,
+				Ripe:    ripe,
+			}.String()
+			chanAddresses[name] = key.Address
 		}
 	} else {
 		exists = true
 	}
-	rows, err := db.Query(`
-		select subject, count, last, hash
-		from threads
-		where name = ? and last > unix_timestamp() - 28*24*60*60
-		order by last desc
-		limit 100;
-	`, "[chan] "+name)
-	var threads []*Thread2
+	threads1, err := d.ThreadsByChanName(name)
 	if err != nil {
 		return nil, err
 	}
-	for rows.Next() {
-		var subject, hash string
-		var count int
-		var last int64
-		rows.Scan(&subject, &count, &last, &hash)
-		if subject == "" {
-			subject = "(no subject)"
-		}
+	var threads []*Thread2
+	for _, thread := range threads1 {
 		threads = append(threads, &Thread2{
-			Subject: subject,
-			Hash:    hash,
-			Last:    time.Unix(last, 0).Format("Jan 2 15:04"),
-			Count:   fmt.Sprintf("%d", count),
+			Subject: thread.Subject,
+			Hash:    thread.Hash,
+			Last:    time.Unix(thread.Last, 0).Format("Jan 2 15:04"),
+			Count:   fmt.Sprintf("%d", thread.Count),
 		})
 	}
-	rows.Close()
 	channel := &Channel2{
 		Name:    name,
-		Address: address,
+		Address: key.Address,
 		Threads: threads,
 		Exists:  exists,
-		Enabled: enabled,
+		Enabled: key.Enabled,
 	}
 	return channel, nil
 }
