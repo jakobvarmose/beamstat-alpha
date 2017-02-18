@@ -88,7 +88,7 @@ func (d *DAO) KeyByName(name string) *Key {
 		from keys2
 		where name = ?;
 	`, key.Name).Scan(&key.Address, &key.Sigkey, &key.Deckey, &key.Enabled)
-	if len(key.Address) < 3 || key.Address[:3] != "BM-" {
+	if key.Address != "" && (len(key.Address) < 3 || key.Address[:3] != "BM-") {
 		key.Address = "BM-" + key.Address
 	}
 	return &key
