@@ -113,6 +113,14 @@ func main() {
 				return
 			}
 		}
+		match = regexp.MustCompile(`^/identicon/(.+).png$`).FindStringSubmatch(req.URL.Path)
+		if match != nil {
+			address, err := url.QueryUnescape(match[1])
+			if err == nil {
+				handleIdenticon(w, req, address)
+				return
+			}
+		}
 		/*		if
 				 else if ok, _ := regexp.MatchString(`^/chan/[^/]+$`, req.URL.Path); ok {
 					handleChan(w, req)
