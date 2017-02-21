@@ -24,18 +24,22 @@ func (d *DAO) Comments(threadHash string) ([]*Comment, error) {
 	defer rows.Close()
 	for rows.Next() {
 		var comment Comment
+		var body *string
 		err := rows.Scan(
 			&comment.SenderName,
 			&comment.Text,
 			&comment.Received,
 			&comment.Sender,
-			&comment.Body,
+			&body,
 			&comment.Pending,
 			&comment.Subject,
 			&comment.IsExtended,
 		)
 		if err != nil {
 			return nil, err
+		}
+		if body != nil {
+			comment.Body = *body
 		}
 		if comment.Subject == "" {
 			comment.Subject = "(no subject)"
