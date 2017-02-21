@@ -9,7 +9,7 @@
 			<h4 class="panel-heading">{{$.Thread.Subject}}</h4>
 			<div class="panel-body">{{range $.Thread.Comments}}
 				<p style="{{if .Pending}}color: #00f{{end}}"><img style="display: inline-block; vertical-align: middle; margin-right: 4px;" src="/identicon/{{.Sender}}.png" alt=""><span style="display: inline-block; vertical-align: middle;"><b title="{{.Sender}}">{{.SenderName}}</b>{{if .IsExtended}} &lt;&lt;Ext&gt;&gt;{{end}}<br><span style="color:gray;">{{.Received}}</span></span></p>
-				<p style="white-space:pre-wrap;">{{.Text}}</p>
+				<p style="white-space:pre-wrap;">{{.SafeText}}</p>
 				<div class="post" style="display: none;">
 	            	<div id="post1" style="display:none;">
 	            		<p><textarea style="width:100%;" rows="10" id="body"></textarea></p>

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 	"time"
 
@@ -14,6 +15,7 @@ type Comment struct {
 	IsReply    bool
 	Subject    string
 	Text       string
+	SafeText   template.HTML
 	Pending    bool
 	Received   string
 	Body       string
@@ -87,6 +89,7 @@ func handleThread(w http.ResponseWriter, req *http.Request, name string, threadH
 			IsReply:    comment.IsReply,
 			Subject:    comment.Subject,
 			Text:       comment.Text,
+			SafeText:   safeText(comment.Text),
 			Pending:    comment.Pending,
 			Received:   formatTime(comment.Received),
 			Body:       comment.Body,
