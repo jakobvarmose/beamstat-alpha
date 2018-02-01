@@ -1,15 +1,12 @@
 {{define "thread" -}}
-{{template "header" .}}{{.Thread.Subject}} - BeamStat{{template "header2" .}}
+{{template "header" .}}{{.Thread.Subject}}{{template "header2" .}}
 <div class="row">
-	<div class="col-md-5">
-		{{template "threadlist" .}}
-	</div>
-	<div class="col-md-7">
+	<div class="col-md-7 col-md-push-5">
 		<div class="panel panel-default">
-			<h4 class="panel-heading">{{$.Thread.Subject}}</h4>
+			<h4 dir="auto" class="panel-heading">{{$.Thread.Subject}}</h4>
 			<div class="panel-body">{{range $.Thread.Comments}}
 				<p><img style="display: inline-block; vertical-align: middle; margin-right: 4px;" src="/identicon/{{.Sender}}.png" alt=""><span style="display: inline-block; vertical-align: middle;"><b title="{{.Sender}}">{{.SenderName}}</b>{{if .IsExtended}} &lt;&lt;Ext&gt;&gt;{{end}}<br><span style="color:gray;">{{.Received}}</span></span></p>
-				<p style="white-space:pre-wrap;">{{.SafeText}}</p>
+				<p dir="auto" style="white-space:pre-wrap;">{{.SafeText}}</p>
 				<div class="post" style="display: none;">
 	            	<div id="post1" style="display:none;">
 	            		<p><textarea style="width:100%;" rows="10" id="body"></textarea></p>
@@ -35,6 +32,9 @@
 	            </div>{{end}}
 			</div>
 		</div>
+	</div>
+	<div class="col-md-5 col-md-pull-7">
+		{{template "threadlist" .}}
 	</div>
 </div>
 {{template "script" .}}

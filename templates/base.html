@@ -7,6 +7,15 @@
     <title>{{end}}{{define "header2"}}</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main.css">
+    <script>
+        var a = 'bm6hsivrmdnxmw2f.onion.';
+        if (document.location.host.substr(0, a.length) === a) {
+            document.location = 'https://beamstat.com' + document.location.pathname;
+        }
+    </script>
+    {{if .Expires}}
+        <meta name="GOOGLEBOT" content="unavailable_after: {{.Expires}}">
+    {{end}}
 </head>
 <body>
 <div class="navbar navbar-default navbar-static-top">
@@ -19,9 +28,9 @@
                 <li><a href="/">Home</a></li>
                 <li class="active"><a href="/chan/general">Chans</a></li>
                 <li><a href="/broadcast">Broadcasts</a></li>
+                <li><a href="/more">Graphs</a></li>
                 <li><a href="/obj">Objects</a></li>
                 <li><a href="/downloads">Downloads</a></li>
-                <li><a href="/numberstation">NumberStation</a></li>
             </ul>
         </div>
     </div>
@@ -41,7 +50,7 @@
             <p><a href="/tos">Terms of Service &amp; Privacy Policy</a></p>
             <p class="text-muted text-left">
                 BM-87ZQse4Ta4MLM9EKmfVUFA4jJUms1Fwnxws<br>
-                mirrorwish@mailchuck.com
+                beamstatcom@gmail.com
             </p>
         </div>
     </div>

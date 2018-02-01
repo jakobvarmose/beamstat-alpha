@@ -96,6 +96,10 @@ func main() {
 			handleChanList(w, req)
 			return
 		}
+		if req.URL.Path == "/broadcast" {
+			handleBroadcastList(w, req)
+			return
+		}
 		match := regexp.MustCompile(`^/chan/(.+)/([0-9a-f]{64})$`).FindStringSubmatch(req.URL.Path)
 		if match != nil {
 			name, err := url.QueryUnescape(match[1])

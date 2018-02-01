@@ -1,6 +1,7 @@
 package dao
 
 type Comment struct {
+	Id         int64
 	Sender     string
 	SenderName string
 	IsReply    bool
@@ -10,4 +11,5 @@ type Comment struct {
 	Received   int64
 	Body       string
 	IsExtended bool
+	ThreadHash string
 }

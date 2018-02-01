@@ -91,6 +91,7 @@ func handleChan(w http.ResponseWriter, req *http.Request, name string) {
 		Channels []ChannelInfo
 		Channel  *Channel2
 		Thread   *ThreadInfo
+		Expires  string
 	}
 	channel, err := getChan(name)
 	if err != nil {

@@ -7,7 +7,7 @@ import (
 	"github.com/jakobvarmose/beamstat-alpha/dao"
 )
 
-func handleChanList(w http.ResponseWriter, req *http.Request) {
+func handleBroadcastList(w http.ResponseWriter, req *http.Request) {
 	keys, err := d.AllKeys()
 	if err != nil {
 		http.Error(w, "Internal server error", 500)
@@ -16,13 +16,12 @@ func handleChanList(w http.ResponseWriter, req *http.Request) {
 	type Info struct {
 		Channels []*dao.Key
 		Count    int
-		Expires  string
 	}
 	info := Info{
 		Channels: keys,
 		Count:    len(keys),
 	}
-	if err := tmpl.ExecuteTemplate(w, "chanlistpage", info); err != nil {
+	if err := tmpl.ExecuteTemplate(w, "broadcastlistpage", info); err != nil {
 		logrus.Error(err)
 	}
 }

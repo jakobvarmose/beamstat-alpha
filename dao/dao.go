@@ -11,9 +11,9 @@ func (d *DAO) Comments(threadHash string) ([]*Comment, error) {
     		select  coalesce(
     			(select name from addresses where address=sender), sender
     		), comment, received,
-    		sender, body, pending, subject, extended
+    		sender, body, pending, subject, extended, id, thread_hash
             from channels
-            where thread_hash = ? and received > unix_timestamp() - 3*28*24*60*60
+            where thread_hash = ? and received > unix_timestamp() - 6*28*24*60*60
             order by received asc
             limit 1000
     	`, threadHash)
@@ -34,6 +34,8 @@ func (d *DAO) Comments(threadHash string) ([]*Comment, error) {
 			&comment.Pending,
 			&comment.Subject,
 			&comment.IsExtended,
+			&comment.Id,
+			&comment.ThreadHash,
 		)
 		if err != nil {
 			return nil, err
@@ -96,6 +98,24 @@ func (d *DAO) KeyByName(name string) *Key {
 		key.Address = "BM-" + key.Address
 	}
 	return &key
+}
+
+func (d *DAO) KeyByName2(name string) (*Key, error) {
+	key := Key{
+		Name: name,
+	}
+	err := d.Db.QueryRow(`
+		select address, sigkey, deckey, enabled
+		from keys2
+		where name = ?;
+	`, key.Name).Scan(&key.Address, &key.Sigkey, &key.Deckey, &key.Enabled)
+	if err != nil {
+		return nil, err
+	}
+	if key.Address != "" && (len(key.Address) < 3 || key.Address[:3] != "BM-") {
+		key.Address = "BM-" + key.Address
+	}
+	return &key, nil
 }
 
 func (d *DAO) ThreadsByChanName(name string) ([]*Thread, error) {

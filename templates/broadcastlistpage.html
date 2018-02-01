@@ -1,0 +1,39 @@
+{{define "broadcastlistpage" -}}
+{{template "header" .}}Broadcasts{{template "header2" .}}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <h4 class="panel-heading">Latest broadcasts</h4>
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Address</th>
+                                <th>Last message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th><a href="/broadcast/BM-NBN5C4Fxxpiz2NWx1jjXovo7myq1pp1F" style="display: block;"><span style="display: inline-block; vertical-align: middle;">Fefes Blog</span></a></th>
+                                <td>May 16 19:37</td>
+                            </tr>
+                        <tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <h4 class="panel-heading">Add your own broadcast</h4>
+                <div class="panel-body">
+                    <!--<p><b>Note:</b> There is currently a bug that results in some broadcasts not being displayed. I will hopefully fix it soon, but right now it doesn't work.</p>-->
+                    <p>To add your own broadcast, simply send a normal message from your broadcast address to any channel listed on BeamStat. Broadcasts sent before this initial message may not be found.</p>
+                    <p>For technical reasons only version 4 addresses are supported.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{template "footer" .}}
+{{- end}}

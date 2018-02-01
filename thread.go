@@ -41,6 +41,7 @@ type Channel2 struct {
 type Info2 struct {
 	Channel *Channel2
 	Thread  *Thread2
+	Expires  string
 }
 
 func formatTime(t int64) string {
@@ -54,10 +55,14 @@ func formatTime(t int64) string {
 	}
 	if diff < 60 {
 		return "Just now"
-	} else if diff < 120 {
+	} else if diff < 2*60 {
 		return "1 minute ago"
-	} else if diff < 3600 {
+	} else if diff < 60*60 {
 		return fmt.Sprintf("%d minutes ago", diff/60)
+	} else if diff < 2*60*60 {
+		return "1 hour ago"
+	} else if diff < 24*60*60 {
+		return fmt.Sprintf("%d hours ago", diff/(60*60))
 	} else {
 		return time.Unix(t, 0).Format("Jan 2 15:04")
 	}
@@ -111,6 +116,7 @@ func handleThread(w http.ResponseWriter, req *http.Request, name string, threadH
 			Comments: comments,
 			Subject:  subject,
 		},
+		Expires:  time.Now().Add(time.Hour*24*28*6).Format("02-Jan-2006 15:04:05 UTC"),
 	}
 	if err := tmpl.ExecuteTemplate(w, "thread", info); err != nil {
 		logrus.Error(err)

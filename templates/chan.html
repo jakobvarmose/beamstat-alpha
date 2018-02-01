@@ -1,11 +1,11 @@
 {{define "chan" -}}
-{{template "header" .}}[chan] {{.Channel.Name}} - BeamStat{{template "header2" .}}
+{{template "header" .}}[chan] {{.Channel.Name}}{{template "header2" .}}
 <div class="row">
-	<div class="col-md-5">
-		{{template "chanlist" .}}
-	</div>
-	<div class="col-md-7">
+	<div class="col-md-7 col-md-push-5">
 		{{template "threadlist" .}}
+	</div>
+	<div class="col-md-5 col-md-pull-7">
+		{{template "chanlist" .}}
 	</div>
 </div>
 {{template "footer" .}}

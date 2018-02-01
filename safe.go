@@ -6,7 +6,7 @@ import (
 	"regexp"
 )
 
-var httpRegexp = regexp.MustCompile(`http(?:s?)://(?:[^\s">]+)`)
+var httpRegexp = regexp.MustCompile(`http(?:s?)://(?:[^\s">]+)|\[chan\] \S+`)
 
 func safeText(str string) template.HTML {
 	var out []byte
@@ -14,9 +14,15 @@ func safeText(str string) template.HTML {
 	loc := httpRegexp.FindStringIndex(str[index:])
 	for loc != nil {
 		out = append(out, html.EscapeString(str[index:index+loc[0]])...)
-		out = append(out, `<a rel="nofollow" href="`...)
-		out = append(out, html.EscapeString(str[index+loc[0]:index+loc[1]])...)
-		out = append(out, `">`...)
+		if str[index+loc[0]] == 'h' {
+			out = append(out, `<a rel="nofollow" href="`...)
+			out = append(out, html.EscapeString(str[index+loc[0]:index+loc[1]])...)
+			out = append(out, `">`...)
+		} else {
+			out = append(out, `<a href="/chan/`...)
+			out = append(out, html.EscapeString(str[index+loc[0]+7:index+loc[1]])...)
+			out = append(out, `">`...)
+		}
 		out = append(out, html.EscapeString(str[index+loc[0]:index+loc[1]])...)
 		out = append(out, `</a>`...)
 		index = index + loc[1]
